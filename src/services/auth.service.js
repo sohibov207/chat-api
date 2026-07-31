@@ -9,6 +9,7 @@ const { generateToken } = require("../utils/jwt.utility");
 async function register(data) {
   const normalizedEmail = normalizeEmail(data.email);
   const trimmedUsername = normalizeUsername(data.username);
+  const trimmedName = data.name.trim();
 
   const existingUser = await db.User.findOne({
     where: {
@@ -31,6 +32,7 @@ async function register(data) {
   const hashedPassword = await bcrypt.hash(data.password, 10);
 
   const user = await db.User.create({
+    name: trimmedName,
     username: trimmedUsername,
     email: normalizedEmail,
     password: hashedPassword,
@@ -42,6 +44,7 @@ async function register(data) {
     token,
     user: {
       id: user.id,
+      name: user.name,
       username: user.username,
       email: user.email,
     },
@@ -73,6 +76,7 @@ async function login(data) {
     token,
     user: {
       id: user.id,
+      name: user.name,
       username: user.username,
       email: user.email,
     },

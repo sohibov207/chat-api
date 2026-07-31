@@ -1,10 +1,36 @@
 function validateRegister(body) {
-  const { username, email, password } = body;
+  const { name, username, email, password } = body;
 
-  if (!username || !email || !password) {
+  if (!name || !username || !email || !password) {
     return {
       valid: false,
-      message: "Username, email and password are required",
+      message: "Name, username, email and password are required",
+    };
+  }
+
+  if (name.trim().length < 2) {
+    return {
+      valid: false,
+      message: "Name must be at least 2 characters",
+    };
+  }
+
+  const emailRegex = /^\S+@\S+\.\S+$/;
+
+  if (!emailRegex.test(email)) {
+    return {
+      valid: false,
+      message: "Invalid email format",
+    };
+  }
+
+  const usernameRegex = /^[a-zA-Z0-9_-]{3,32}$/;
+
+  if (!usernameRegex.test(username)) {
+    return {
+      valid: false,
+      message:
+        "Username must be 3-32 characters and contain only letters, numbers, _ and -",
     };
   }
 

@@ -54,7 +54,7 @@ const login = async (req, res) => {
 
     return res.status(200).json(result);
   } catch (error) {
-    if (error = "INVALID_CREDENTIALS") {
+    if (error.message === "INVALID_CREDENTIALS") {
       return res.status(400).json({
         message: "Invalid email or password",
       });
